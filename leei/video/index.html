@@ -42,10 +42,12 @@
     </div>
 
     <script type="text/javascript">
+        var src = ""
         var v = document.querySelector('video');
         var play = document.querySelector('#play');
         var pause = document.querySelector('#pause');
         var totalTime = document.querySelector("#totalTime span");
+        var totalTimeText = document.querySelector("#totalTime span")
         var playTime = document.querySelector("#playTime span");
         var overTime = document.querySelector("#overTime span");
         var vol = document.querySelector("#vol span");
@@ -96,7 +98,7 @@
         };
 
         v.ontimeupdate = function() {
-            var time = document.querySelector("#totalTime span").innerHTML;
+            var time = totalTimeText.innerHTML;
 
             overTime.innerHTML = this.duration - this.currentTime;
 
