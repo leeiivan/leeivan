@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+        #vol {
+            position: relative;
+            width: 100px;
+            height: 5px;
+            border: solid 1px #212121;
+        }
+
+        #vol span {
+            display: block;
+            position: relative;
+            width: 10px;
+            height: 5px;
+            background: #f00;
+        }
+    </style>
+</head>
+<body>
+    <video width="320" height="240">
+        <source src="http://www.w3school.com.cn/i/movie.ogg" type="video/ogg">
+        <source src="http://www.w3school.com.cn/i/movie.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <button id="play">播放</button>
+    <button id="pause">暂停</button>
+    <button id="addVol">增加音量</button>
+    <button id="reduceVol">减少音量</button>
+    <p id="totalTime">总时长：<span></span>秒</p>
+    <p id="playTime">播放时长：<span></span>秒</p>
+    <p id="overTime">剩余时长：<span></span>秒</p>
+    音量：
+    <div id="vol">
+
+        <span></span>
+        <p>10</p>
+    </div>
+
+    <script type="text/javascript">
+        var v = document.querySelector('video');
+        var play = document.querySelector('#play');
+        var pause = document.querySelector('#pause');
+        var totalTime = document.querySelector("#totalTime span");
+        var playTime = document.querySelector("#playTime span");
+        var overTime = document.querySelector("#overTime span");
+        var vol = document.querySelector("#vol span");
+        var volText = document.querySelector("#vol p");
+        var add = document.querySelector("#addVol");
+        var reduce = document.querySelector("#reduceVol");
+
+        var volVal = 100;
+
+        play.onclick = function() {
+            v.play();
+        };
+
+        pause.onclick = function() {
+            v.pause();
+        };
+
+        add.onclick = function() {
+            var curVol = v.volume.toFixed(1);
+
+            if (curVol < 1) {
+                v.volume += 0.1;
+                updateVol();
+            }
+            else {
+                alert("over");
+            }
+
+        };
+
+        reduceVol.onclick = function() {
+            var curVol = v.volume.toFixed(1);
+
+            if (curVol > 0) {
+                v.volume -= 0.1;
+                updateVol();
+            }
+            else {
+                alert("over");
+            }
+        };
+
+        v.oncanplay = function() {
+            var curVol = this.volume = 0.1;
+            vol.style.width = curVol * volVal + "px";
+
+            totalTime.innerHTML = parseInt(this.duration);
+        };
+
+        v.ontimeupdate = function() {
+            var time = document.querySelector("#totalTime span").innerHTML;
+
+            overTime.innerHTML = this.duration - this.currentTime;
+
+            playTime.innerHTML = parseInt(this.currentTime);
+        };
+
+        v.onended = function () {
+            alert("over");
+        };
+
+        function updateVol() {
+            var curVol = v.volume.toFixed(1);
+            vol.style.width = curVol * volVal + "px";
+            volText.innerHTML = curVol * volVal;
+        }
+    </script>
+</body>
+</html>
